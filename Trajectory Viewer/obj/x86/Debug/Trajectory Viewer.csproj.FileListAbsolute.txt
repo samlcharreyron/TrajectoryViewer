@@ -1,0 +1,16 @@
+C:\Users\Stewart\Documents\C#\Trajectory Viewer\Trajectory Viewer\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Stewart\Documents\C#\Trajectory Viewer\Trajectory Viewer\obj\x86\Debug\MainWindow.baml
+C:\Users\Stewart\Documents\C#\Trajectory Viewer\Trajectory Viewer\obj\x86\Debug\MainWindow.g.cs
+C:\Users\Stewart\Documents\C#\Trajectory Viewer\Trajectory Viewer\obj\x86\Debug\App.g.cs
+C:\Users\Stewart\Documents\C#\Trajectory Viewer\Trajectory Viewer\obj\x86\Debug\Trajectory Viewer_MarkupCompile.cache
+C:\Users\Stewart\Documents\C#\Trajectory Viewer\Trajectory Viewer\obj\x86\Debug\Trajectory Viewer.g.resources
+C:\Users\Stewart\Documents\C#\Trajectory Viewer\Trajectory Viewer\obj\x86\Debug\Trajectory_Viewer.Properties.Resources.resources
+C:\Users\Stewart\Documents\C#\Trajectory Viewer\Trajectory Viewer\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\Stewart\Documents\C#\Trajectory Viewer\Trajectory Viewer\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Users\Stewart\Documents\C#\Trajectory Viewer\Trajectory Viewer\bin\Debug\Trajectory Viewer.exe
+C:\Users\Stewart\Documents\C#\Trajectory Viewer\Trajectory Viewer\bin\Debug\Trajectory Viewer.pdb
+C:\Users\Stewart\Documents\C#\Trajectory Viewer\Trajectory Viewer\obj\x86\Debug\Trajectory Viewer.exe
+C:\Users\Stewart\Documents\C#\Trajectory Viewer\Trajectory Viewer\obj\x86\Debug\Trajectory Viewer.pdb
+C:\Users\Stewart\Documents\C#\Trajectory Viewer\Trajectory Viewer\bin\Debug\Petzold.Media3D.dll
+C:\Users\Stewart\Documents\C#\Trajectory Viewer\Trajectory Viewer\bin\Debug\HelixToolkit.Wpf.dll
+C:\Users\Stewart\Documents\C#\Trajectory Viewer\Trajectory Viewer\bin\Debug\HelixToolkit.Wpf.Input.dll
