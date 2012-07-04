@@ -85,74 +85,11 @@ namespace Trajectory_Viewer
             }
         }
 
-        //private void Reset_Click(object sender, RoutedEventArgs e)
-        //{
-        //    camera.Position = new Point3D(camera.Position.X, camera.Position.Y, 5);
-        //    model.Transform = new Transform3DGroup();
-        //}
-
-        //private void ShowAllButton_Clicked(object sender, RoutedEventArgs e)
-        //{
-            
-
-        //}
-
-        //private void Grid_MouseMove(object sender, MouseEventArgs e)
-        //{
-        //    if (mDown)
-        //    {
-        //        Point pos = Mouse.GetPosition(viewport);
-        //        Point actualPos = new Point(pos.X - viewport.ActualWidth / 2, viewport.ActualHeight / 2 - pos.Y);
-        //        double dx = actualPos.X - mLastPos.X, dy = actualPos.Y - mLastPos.Y;
-
-        //        double mouseAngle = 0;
-        //        if (dx != 0 && dy != 0)
-        //        {
-        //            mouseAngle = Math.Asin(Math.Abs(dy) / Math.Sqrt(Math.Pow(dx, 2) + Math.Pow(dy, 2)));
-        //            if (dx < 0 && dy > 0) mouseAngle += Math.PI / 2;
-        //            else if (dx < 0 && dy < 0) mouseAngle += Math.PI;
-        //            else if (dx > 0 && dy < 0) mouseAngle += Math.PI * 1.5;
-        //        }
-        //        else if (dx == 0 && dy != 0) mouseAngle = Math.Sign(dy) > 0 ? Math.PI / 2 : Math.PI * 1.5;
-        //        else if (dx != 0 && dy == 0) mouseAngle = Math.Sign(dx) > 0 ? 0 : Math.PI;
-
-        //        double axisAngle = mouseAngle + Math.PI / 2;
-
-        //        Vector3D axis = new Vector3D(Math.Cos(axisAngle) * 4, Math.Sin(axisAngle) * 4, 0);
-
-        //        double rotation = 0.01 * Math.Sqrt(Math.Pow(dx, 2) + Math.Pow(dy, 2));
-
-        //        Transform3DGroup group = model.Transform as Transform3DGroup;
-        //        QuaternionRotation3D r = new QuaternionRotation3D(new Quaternion(axis, rotation * 180 / Math.PI));
-        //        group.Children.Add(new RotateTransform3D(r));
-
-        //        mLastPos = actualPos;
-        //    }
-        //}
-
-        //private void Grid_MouseUp(object sender, MouseButtonEventArgs e)
-        //{
-        //    mDown = false;
-        //}
-
-        //private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
-        //{
-        //    if (e.LeftButton != MouseButtonState.Pressed) return;
-        //    mDown = true;
-        //    Point pos = Mouse.GetPosition(viewport);
-        //    mLastPos = new Point(pos.X - viewport.ActualWidth / 2, viewport.ActualHeight / 2 - pos.Y);
-        //}
-
-        //private void Grid_MouseWheel(object sender, MouseWheelEventArgs e)
-        //{
-        //    camera.Position = new Point3D(camera.Position.X, camera.Position.Y, camera.Position.Z - e.Delta / 250D);
-        //}
-
         private void mnuOpen_Clicked(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog OpenFileDialog1 = new Microsoft.Win32.OpenFileDialog();
             OpenFileDialog1.Title = "Open Trajectory Data";
-            OpenFileDialog1.DefaultExt = ".xml";
+            OpenFileDialog1.DefaultExt = "*.xml";
             OpenFileDialog1.Filter = "XML files (*.xml)|*.txt|All files (*.*)|*.*";
 
             Nullable<bool> result = OpenFileDialog1.ShowDialog();
@@ -165,6 +102,8 @@ namespace Trajectory_Viewer
                 model.Children.Add(axes);
 
                 showAll();
+                cleanUpData();
+                addToDataGrid();
             }
         }
 
@@ -257,18 +196,97 @@ namespace Trajectory_Viewer
             }
         }
 
+        private void updateTrajectoryText(int tid)
+        {
+            TrajectoryDbDataSet.trajectoriesRow traj = tds.trajectories.FindByt_id(tid);
+            tidblock.Text = traj.t_id.ToString();
+            starttimeblock.Text = traj.start_time.ToString("HH:mm:ss.fff");
+            lengthblock.Text = traj.length.ToString("0.000");
+            averagevelocityblock.Text = traj.average_velocity.ToString("0.000");
+            
+        }
+
+        private void clearTrajectoryText()
+        {
+            tidblock.Text = "";
+            starttimeblock.Text = "";
+            lengthblock.Text = "";
+            averagevelocityblock.Text = "";
+        }
+
+
+        //Used to recalculate velocities based on stored millisecond values.  Discards the first point
+        private void cleanUpData()
+        {
+            TrajectoryDbDataSet.pointsRow lastRow = null;
+
+            for (int i = 0; i < tds.trajectories.Count; i++)
+            {
+                if (tds.trajectories[i].average_velocity > 0)
+                {
+                    foreach (TrajectoryDbDataSet.pointsRow row in tds.points.Select(String.Format("t_id = {0}", tds.trajectories[i].t_id)))
+                    {
+                        if (lastRow != null)
+                        {
+                            row.deltaDistance = Math.Sqrt(Math.Pow((row.X - lastRow.X), 2) + Math.Pow(row.Z - lastRow.Z, 2));
+                            row.distance = lastRow.distance + row.deltaDistance;
+                            row.velocity = 1000 * row.deltaDistance / (row.milliseconds - lastRow.milliseconds);
+                        }
+                        else row.distance = 0;
+
+                        lastRow = row;
+                    }
+
+                    tds.trajectories[i].average_velocity = 1000 * lastRow.distance / lastRow.milliseconds;
+                    lastRow = null;
+                }
+            }
+        }
+
+        private void addToDataGrid()
+        {
+            BindingListCollectionView view = CollectionViewSource.GetDefaultView(tds.trajectories) as BindingListCollectionView;
+            dg1.ItemsSource = view;
+        }
+
         private void ShowTrajButton_Clicked(object sender, RoutedEventArgs e)
         {
             int tid = 0;
             if (tds != null)
             {
                 singletrajectory.Children.Clear();
+                clearTrajectoryText();
+    
 
                 if (int.TryParse(tidtextblock.Text, out tid) && tds.trajectories.FindByt_id(tid) != null)
                 {
                     DrawTrajectory(tid, Colors.Red, "N", singletrajectory);
+                    updateTrajectoryText(tid);
+                    //highlightRow(tid);
                 }
             }                
+        }
+
+        private void highlightRow(int tid)
+        {
+            //throw new NotImplementedException();
+            //DataGridRow row = (DataGridRow)dg1.ItemContainerGenerator.ContainerFromIndex(tid);
+            try
+            {
+                throw new NotImplementedException("not yet implemented");
+                //TrajectoryDbDataSet.trajectoriesRow trajrow = tds.trajectories.FindByt_id(tid);
+                //DataGridRow row = dg1.ItemContainerGenerator.ContainerFromItem(trajrow) as DataGridRow;
+                //row.Background = new SolidColorBrush(Colors.Yellow);
+                //dg1.ScrollIntoView(row);
+            }
+            catch
+            {
+                return;
+            }
+
+            //throw new ArgumentException("No item with specified id exists in the dataGrid.", "id");
+            
+
         }
 
         private void showallbutton_Click(object sender, RoutedEventArgs e)
@@ -280,6 +298,70 @@ namespace Trajectory_Viewer
                     hideAll();
                 }
                 else showAll();
+            }
+        }
+
+        private void mnuSave_Clicked(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.SaveFileDialog saveFileDialog1 = new Microsoft.Win32.SaveFileDialog();
+            saveFileDialog1.Title = "Save Trajectory Data";
+            saveFileDialog1.DefaultExt = ".csv";
+            saveFileDialog1.Filter = "CSV files (*.csv)|*.txt|All files (*.*)|*.*";
+            saveFileDialog1.FileName = "trajectories.csv";
+
+            Nullable<bool> result = saveFileDialog1.ShowDialog();
+
+            if (result == true)
+            {
+                string saveFileName = saveFileDialog1.FileName;
+
+                try
+                {
+                    // Create the CSV file to which grid data will be exported.
+
+                    StreamWriter sw = new StreamWriter(saveFileName, false);
+                    // First we will write the headers.
+                    DataTable dt = tds.trajectories;
+                    int iColCount = dt.Columns.Count;
+                    for (int i = 0; i < iColCount; i++)
+                    {
+                        sw.Write(dt.Columns[i]);
+                        if (i < iColCount - 1)
+                        {
+                            sw.Write(",");
+                        }
+                    }
+                    sw.Write(sw.NewLine);
+
+                    // Now write all the rows.
+
+                    //foreach (DataRow dr in dt.Rows)
+                    for (int j = 0; j < dt.Rows.Count; j++)
+                    {
+                        DataRow dr = dt.Rows[j];
+
+                        for (int i = 0; i < iColCount; i++)
+                        {
+                            if (!Convert.IsDBNull(dr[i]))
+                            {
+                                sw.Write(dr[i].ToString());
+                            }
+                            if (i < iColCount - 1)
+                            {
+                                sw.Write(",");
+                            }
+                        }
+
+                        sw.Write(sw.NewLine);
+                    }
+                    sw.Close();
+
+                    MessageBox.Show("Trajectories succesfully saved to CSV file");
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
             }
         }
     }

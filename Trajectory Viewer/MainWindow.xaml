@@ -3,36 +3,82 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:HelixToolkit="clr-namespace:HelixToolkit.Wpf;assembly=HelixToolkit.Wpf"
         Title="Trajectory Viewer" Height="600" Width="600">
-    <Grid Background="Black">
+    <DockPanel Background="Black">
+        <Menu DockPanel.Dock="Top" Name="menu" Height="22">
+            <MenuItem Header="File">
+                <MenuItem Header="Open" Click="mnuOpen_Clicked" />
+                <MenuItem Header="Save" Click="mnuSave_Clicked" />
+            </MenuItem>
+        </Menu>
+    
+    <Grid>
         <!-- MouseWheel="Grid_MouseWheel" MouseDown="Grid_MouseDown" MouseUp="Grid_MouseUp" MouseMove="Grid_MouseMove" -->
-            <Grid.RowDefinitions>
-                <RowDefinition Height="22" />
+        <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="10"/>
+        </Grid.ColumnDefinitions>
 
-        <Menu Grid.Row="0" Name="menu" Height="22">
-            <MenuItem Header="File">
-                <MenuItem Header="Open" Click="mnuOpen_Clicked" />
-            </MenuItem>
-        </Menu>
-        <StackPanel Grid.Row="1" HorizontalAlignment="Left" Width="60">
+            <HelixToolkit:HelixViewport3D Grid.Row="1" Grid.Column="0"  ModelUpDirection="0,1,0" CameraRotationMode="Turntable">
+                <HelixToolkit:HelixViewport3D.Camera>
+                    <PerspectiveCamera Position="0, 0, 5"  LookDirection="0, 0, -1" FieldOfView="45" UpDirection="0,1,0"/>
+                </HelixToolkit:HelixViewport3D.Camera>
+                <HelixToolkit:SunLight/>
+                <ModelVisual3D x:Name="model"/>
+                <ModelVisual3D x:Name="alltrajectories"/>
+                <ModelVisual3D x:Name="singletrajectory"/>
+            </HelixToolkit:HelixViewport3D>
+
+            <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="60">
             <StackPanel Height="22" Width="60" Orientation="Horizontal">
                 <TextBox x:Name="tidtextblock" Width="40" Tag="Enter trajectory id"></TextBox>
                 <Button Click="ShowTrajButton_Clicked">Go</Button>
             </StackPanel>
             <Button x:Name="showallbutton" Click="showallbutton_Click">Hide All</Button>
         </StackPanel>
+        
+        <StackPanel Grid.Row="1" Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="100" Width="120">
+            <StackPanel.Resources>
+                <Style TargetType="TextBlock" x:Key="TextBlockStyle">
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontSize" Value="10"/>
+                    <Setter Property="VerticalAlignment" Value="Bottom"/>
+                </Style>
+                <Style TargetType="Label" x:Key="LabelStyle">
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontSize" Value="10"/>
+                    <Setter Property="FontWeight" Value="Bold" />
+                    <Setter Property="VerticalAlignment" Value="Bottom"/>
+                </Style>
+            </StackPanel.Resources>
+            <StackPanel Orientation="Horizontal">
+                <Label Style="{StaticResource LabelStyle}">Trajectory ID</Label>
+                <TextBlock x:Name="tidblock" Style="{StaticResource TextBlockStyle}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Style="{StaticResource LabelStyle}">Start Time</Label>
+                <TextBlock x:Name="starttimeblock" Style="{StaticResource TextBlockStyle}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Style="{StaticResource LabelStyle}">Length</Label>
+                <TextBlock x:Name="lengthblock" Style="{StaticResource TextBlockStyle}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Style="{StaticResource LabelStyle}">Average Velocity</Label>
+                <TextBlock x:Name="averagevelocityblock" Style="{StaticResource TextBlockStyle}"/>
+            </StackPanel>
+        </StackPanel>
+        
+        <GridSplitter Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" 
+                      VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext" Width="5" Background="LightGray"/>
 
-        <HelixToolkit:HelixViewport3D Grid.Row="2" ModelUpDirection="0,1,0" CameraRotationMode="Turntable">
-            <HelixToolkit:HelixViewport3D.Camera>
-                <PerspectiveCamera Position="0, 0, 5"  LookDirection="0, 0, -1" FieldOfView="45" UpDirection="0,1,0"/>
-            </HelixToolkit:HelixViewport3D.Camera>
-            <HelixToolkit:SunLight/>
-            <ModelVisual3D x:Name="model"/>
-            <ModelVisual3D x:Name="alltrajectories"/>
-            <ModelVisual3D x:Name="singletrajectory"/>
-        </HelixToolkit:HelixViewport3D>
-</Grid>
+        <DataGrid x:Name="dg1" Grid.Row="1" Grid.Column="2">
+        </DataGrid>
+    </Grid>
+    </DockPanel>
 </Window>
