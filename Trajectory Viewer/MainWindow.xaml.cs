@@ -102,7 +102,7 @@ namespace Trajectory_Viewer
                 model.Children.Add(axes);
 
                 showAll();
-                cleanUpData();
+                //cleanUpData();
                 addToDataGrid();
             }
         }
@@ -363,6 +363,11 @@ namespace Trajectory_Viewer
                     throw ex;
                 }
             }
+        }
+
+        private void mnuCleanUp_Clicked(object sender, RoutedEventArgs e)
+        {
+            cleanUpData();
         }
     }
 }

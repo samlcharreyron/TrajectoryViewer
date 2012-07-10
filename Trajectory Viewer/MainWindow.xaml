@@ -8,6 +8,7 @@
             <MenuItem Header="File">
                 <MenuItem Header="Open" Click="mnuOpen_Clicked" />
                 <MenuItem Header="Save" Click="mnuSave_Clicked" />
+                <MenuItem Header="Clean Up Data" Click="mnuCleanUp_Clicked"/>
             </MenuItem>
         </Menu>
     
