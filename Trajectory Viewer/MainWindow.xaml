@@ -9,6 +9,8 @@
                 <MenuItem Header="Open" Click="mnuOpen_Clicked" />
                 <MenuItem Header="Save" Click="mnuSave_Clicked" />
                 <MenuItem Header="Clean Up Data" Click="mnuCleanUp_Clicked"/>
+                <MenuItem Header="Kalmanize" Click="mnuKalmanize_Clicked"/>
+                <MenuItem Header="Write XML" Click="mnuWriteXML_Clicked" />
             </MenuItem>
         </Menu>
     

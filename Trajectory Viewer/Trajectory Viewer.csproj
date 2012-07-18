@@ -68,6 +68,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Kalman.cs" />
+    <Compile Include="Matrix.cs" />
     <Compile Include="TrajectoryDbDataSet.cs">
       <DependentUpon>TrajectoryDbDataSet.xsd</DependentUpon>
     </Compile>

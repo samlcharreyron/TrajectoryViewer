@@ -37,6 +37,11 @@ namespace Trajectory_Viewer
         //private ModelVisual3D model;
         Petzold.Media2D.ArrowEnds arrow;
 
+        //Used later to find the incremental velocites and time steps
+        private double lastX;
+        private double lastZ;
+        private double lastTime;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -243,6 +248,51 @@ namespace Trajectory_Viewer
             }
         }
 
+        private void Kalmanize()
+        {
+            Kalman k1 = new Kalman();
+
+            for (int i = 0; i < tds.trajectories.Count; i++)
+            {
+                if (tds.trajectories[i].average_velocity > 0)
+                {
+                    TrajectoryDbDataSet.pointsRow[] rows = tds.points.Select(String.Format("t_id = {0}",tds.trajectories[i].t_id)) as TrajectoryDbDataSet.pointsRow[];
+
+                  for(int  j = 0; j < rows.Count(); j++)
+                  {
+                      // First point so reset the Kalman filter
+                      if (j == 0)
+                      {
+                          //Don't have vx, vz entries yet so we'll have to do with velocity to set the Kalman filter
+                          k1.Reset(rows[j].X,rows[j].Z,rows[j].velocity,rows[j].velocity,rows[j].milliseconds);
+
+                          lastX = rows[j].X;
+                          lastZ = rows[j].Z;
+                          lastTime = 0;
+
+                      }
+
+                      Matrix Xpred = k1.Prediction((double)rows[j].milliseconds/1000 - lastTime);
+                      lastTime = rows[j].milliseconds/1000;
+
+                      if (j < rows.Count() - 1)
+                      {
+                        double vx = 1000 * (rows[j+1].X - lastX)/(rows[j+1].milliseconds - lastTime);
+                        double vz = 1000 * (rows[j+1].Z - lastZ)/(rows[j+1].milliseconds - lastTime);
+
+                        Matrix Xup = k1.update(vx,vz);
+                        tds.points[j].velocity = Math.Sqrt(Xup.Data[2]*Xup.Data[2] + Xup.Data[3]*Xup.Data[3]);
+                      }
+                      else
+                      {
+                          tds.points[j].velocity = Math.Sqrt(Xpred.Data[2] * Xpred.Data[2] + Xpred.Data[3] * Xpred.Data[3]);
+                      }
+                  }
+                }
+            }
+        }
+
+
         private void addToDataGrid()
         {
             BindingListCollectionView view = CollectionViewSource.GetDefaultView(tds.trajectories) as BindingListCollectionView;
@@ -368,6 +418,28 @@ namespace Trajectory_Viewer
         private void mnuCleanUp_Clicked(object sender, RoutedEventArgs e)
         {
             cleanUpData();
+        }
+
+        private void mnuKalmanize_Clicked(object sender, RoutedEventArgs e)
+        {
+            Kalmanize();
+        }
+
+        private void mnuWriteXML_Clicked(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.SaveFileDialog saveFileDialog1 = new Microsoft.Win32.SaveFileDialog();
+            saveFileDialog1.Title = "Save Trajectory Data";
+            saveFileDialog1.DefaultExt = ".xml";
+            saveFileDialog1.Filter = "XML files (*.xml)|*.txt|All files (*.*)|*.*";
+            saveFileDialog1.FileName = "trajectorydb.xml";
+
+            Nullable<bool> result = saveFileDialog1.ShowDialog();
+
+            if (result == true)
+            {
+                string saveFileName = saveFileDialog1.FileName;
+                tds.WriteXml(saveFileName);
+            }
         }
     }
 }
