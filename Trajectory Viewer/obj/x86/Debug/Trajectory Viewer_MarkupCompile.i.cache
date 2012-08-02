@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\Stewart\Documents\C#\Trajectory Viewer\Trajectory Viewer\App.xaml
-11151548125
-
-112091466377
+21607186552
+2286027208
+10-109189239
 16110363224
-MainWindow.xaml;
+MainWindow.xaml;PointsWindow.xaml;
 
-False
+True
 

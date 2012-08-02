@@ -14,3 +14,11 @@ C:\Users\Stewart\Documents\C#\Trajectory Viewer\Trajectory Viewer\obj\x86\Debug\
 C:\Users\Stewart\Documents\C#\Trajectory Viewer\Trajectory Viewer\bin\Debug\Petzold.Media3D.dll
 C:\Users\Stewart\Documents\C#\Trajectory Viewer\Trajectory Viewer\bin\Debug\HelixToolkit.Wpf.dll
 C:\Users\Stewart\Documents\C#\Trajectory Viewer\Trajectory Viewer\bin\Debug\HelixToolkit.Wpf.Input.dll
+C:\Users\Stewart\Documents\C#\Trajectory Viewer\Trajectory Viewer\obj\x86\Debug\PointsWindow.baml
+C:\Users\Stewart\Documents\C#\Trajectory Viewer\Trajectory Viewer\obj\x86\Debug\PointsWindow.g.cs
+C:\Users\Stewart\Documents\C#\Trajectory Viewer\Trajectory Viewer\obj\x86\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\Stewart\Documents\C#\Trajectory Viewer\Trajectory Viewer\obj\x86\Debug\Trajectory Viewer_MarkupCompile.lref
+C:\Users\Stewart\Documents\C#\Trajectory Viewer\Trajectory Viewer\bin\Debug\TrajectoryDb.mdf
+C:\Users\Stewart\Documents\C#\Trajectory Viewer\Trajectory Viewer\bin\Debug\TrajectoryDb_log.ldf
+C:\Users\Stewart\Documents\C#\Trajectory Viewer\Trajectory Viewer\bin\Debug\Trajectory Viewer.exe.config
+C:\Users\Stewart\Documents\C#\Trajectory Viewer\Trajectory Viewer\obj\x86\Debug\Trajectory Viewer_Content.g.cs

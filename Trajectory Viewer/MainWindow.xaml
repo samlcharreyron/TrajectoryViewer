@@ -80,7 +80,7 @@
         <GridSplitter Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" 
                       VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext" Width="5" Background="LightGray"/>
 
-        <DataGrid x:Name="dg1" Grid.Row="1" Grid.Column="2">
+            <DataGrid x:Name="dg1" Grid.Row="1" Grid.Column="2" MouseDoubleClick="dg1_MouseDoubleClick" IsReadOnly="True">
         </DataGrid>
     </Grid>
     </DockPanel>

@@ -10,7 +10,7 @@
 
 #pragma warning disable 1591
 
-namespace Pedestrian_Tracker_Viewer {
+namespace Trajectory_Viewer {
     
     
     /// <summary>
@@ -343,6 +343,10 @@ namespace Pedestrian_Tracker_Viewer {
             
             private global::System.Data.DataColumn columnmilliseconds;
             
+            private global::System.Data.DataColumn columnvx;
+            
+            private global::System.Data.DataColumn columnvz;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public pointsDataTable() {
@@ -466,6 +470,22 @@ namespace Pedestrian_Tracker_Viewer {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn vxColumn {
+                get {
+                    return this.columnvx;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn vzColumn {
+                get {
+                    return this.columnvz;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -501,7 +521,7 @@ namespace Pedestrian_Tracker_Viewer {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public pointsRow AddpointsRow(double X, double Y, double Z, double distance, double deltaDistance, double velocity, string direction, byte skeleton, trajectoriesRow parenttrajectoriesRowByFK_points_trajectories, int milliseconds) {
+            public pointsRow AddpointsRow(double X, double Y, double Z, double distance, double deltaDistance, double velocity, string direction, byte skeleton, trajectoriesRow parenttrajectoriesRowByFK_points_trajectories, int milliseconds, double vx, double vz) {
                 pointsRow rowpointsRow = ((pointsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         X,
@@ -514,7 +534,9 @@ namespace Pedestrian_Tracker_Viewer {
                         skeleton,
                         null,
                         null,
-                        milliseconds};
+                        milliseconds,
+                        vx,
+                        vz};
                 if ((parenttrajectoriesRowByFK_points_trajectories != null)) {
                     columnValuesArray[9] = parenttrajectoriesRowByFK_points_trajectories[6];
                 }
@@ -558,6 +580,8 @@ namespace Pedestrian_Tracker_Viewer {
                 this.columnp_id = base.Columns["p_id"];
                 this.columnt_id = base.Columns["t_id"];
                 this.columnmilliseconds = base.Columns["milliseconds"];
+                this.columnvx = base.Columns["vx"];
+                this.columnvz = base.Columns["vz"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -585,9 +609,13 @@ namespace Pedestrian_Tracker_Viewer {
                 base.Columns.Add(this.columnt_id);
                 this.columnmilliseconds = new global::System.Data.DataColumn("milliseconds", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnmilliseconds);
+                this.columnvx = new global::System.Data.DataColumn("vx", typeof(double), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnvx);
+                this.columnvz = new global::System.Data.DataColumn("vz", typeof(double), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnvz);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnp_id}, true));
-                this.columndirection.MaxLength = 1;
+                this.columndirection.MaxLength = 2;
                 this.columnp_id.AutoIncrement = true;
                 this.columnp_id.AutoIncrementSeed = -1;
                 this.columnp_id.AutoIncrementStep = -1;
@@ -741,6 +769,8 @@ namespace Pedestrian_Tracker_Viewer {
             
             private global::System.Data.DataColumn columnt_id;
             
+            private global::System.Data.DataColumn columnspeed_kalmanized;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public trajectoriesDataTable() {
@@ -832,6 +862,14 @@ namespace Pedestrian_Tracker_Viewer {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn speed_kalmanizedColumn {
+                get {
+                    return this.columnspeed_kalmanized;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -867,7 +905,7 @@ namespace Pedestrian_Tracker_Viewer {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public trajectoriesRow AddtrajectoriesRow(byte skeleton, System.DateTime start_time, System.DateTime end_time, double average_velocity, string average_direction, double length) {
+            public trajectoriesRow AddtrajectoriesRow(byte skeleton, System.DateTime start_time, System.DateTime end_time, double average_velocity, string average_direction, double length, double speed_kalmanized) {
                 trajectoriesRow rowtrajectoriesRow = ((trajectoriesRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         skeleton,
@@ -876,7 +914,8 @@ namespace Pedestrian_Tracker_Viewer {
                         average_velocity,
                         average_direction,
                         length,
-                        null};
+                        null,
+                        speed_kalmanized};
                 rowtrajectoriesRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowtrajectoriesRow);
                 return rowtrajectoriesRow;
@@ -913,6 +952,7 @@ namespace Pedestrian_Tracker_Viewer {
                 this.columnaverage_direction = base.Columns["average_direction"];
                 this.columnlength = base.Columns["length"];
                 this.columnt_id = base.Columns["t_id"];
+                this.columnspeed_kalmanized = base.Columns["speed_kalmanized"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -932,13 +972,15 @@ namespace Pedestrian_Tracker_Viewer {
                 base.Columns.Add(this.columnlength);
                 this.columnt_id = new global::System.Data.DataColumn("t_id", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnt_id);
+                this.columnspeed_kalmanized = new global::System.Data.DataColumn("speed_kalmanized", typeof(double), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnspeed_kalmanized);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnt_id}, true));
                 this.columnskeleton.AllowDBNull = false;
                 this.columnstart_time.AllowDBNull = false;
                 this.columnend_time.AllowDBNull = false;
                 this.columnaverage_direction.AllowDBNull = false;
-                this.columnaverage_direction.MaxLength = 1;
+                this.columnaverage_direction.MaxLength = 2;
                 this.columnt_id.AutoIncrement = true;
                 this.columnt_id.AutoIncrementSeed = -1;
                 this.columnt_id.AutoIncrementStep = -1;
@@ -1258,6 +1300,38 @@ namespace Pedestrian_Tracker_Viewer {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public double vx {
+                get {
+                    try {
+                        return ((double)(this[this.tablepoints.vxColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'vx\' in table \'points\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablepoints.vxColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public double vz {
+                get {
+                    try {
+                        return ((double)(this[this.tablepoints.vzColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'vz\' in table \'points\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablepoints.vzColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public trajectoriesRow trajectoriesRow {
                 get {
                     return ((trajectoriesRow)(this.GetParentRow(this.Table.ParentRelations["FK_points_trajectories"])));
@@ -1386,6 +1460,30 @@ namespace Pedestrian_Tracker_Viewer {
             public void SetmillisecondsNull() {
                 this[this.tablepoints.millisecondsColumn] = global::System.Convert.DBNull;
             }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsvxNull() {
+                return this.IsNull(this.tablepoints.vxColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetvxNull() {
+                this[this.tablepoints.vxColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsvzNull() {
+                return this.IsNull(this.tablepoints.vzColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetvzNull() {
+                this[this.tablepoints.vzColumn] = global::System.Convert.DBNull;
+            }
         }
         
         /// <summary>
@@ -1491,6 +1589,22 @@ namespace Pedestrian_Tracker_Viewer {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public double speed_kalmanized {
+                get {
+                    try {
+                        return ((double)(this[this.tabletrajectories.speed_kalmanizedColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'speed_kalmanized\' in table \'trajectories\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabletrajectories.speed_kalmanizedColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool Isaverage_velocityNull() {
                 return this.IsNull(this.tabletrajectories.average_velocityColumn);
             }
@@ -1511,6 +1625,18 @@ namespace Pedestrian_Tracker_Viewer {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetlengthNull() {
                 this[this.tabletrajectories.lengthColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool Isspeed_kalmanizedNull() {
+                return this.IsNull(this.tabletrajectories.speed_kalmanizedColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void Setspeed_kalmanizedNull() {
+                this[this.tabletrajectories.speed_kalmanizedColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1594,7 +1720,7 @@ namespace Pedestrian_Tracker_Viewer {
         }
     }
 }
-namespace Pedestrian_Tracker_Viewer.TrajectoryDbDataSetTableAdapters {
+namespace Trajectory_Viewer.TrajectoryDbDataSetTableAdapters {
     
     
     /// <summary>
@@ -1729,10 +1855,12 @@ namespace Pedestrian_Tracker_Viewer.TrajectoryDbDataSetTableAdapters {
             tableMapping.ColumnMappings.Add("p_id", "p_id");
             tableMapping.ColumnMappings.Add("t_id", "t_id");
             tableMapping.ColumnMappings.Add("milliseconds", "milliseconds");
+            tableMapping.ColumnMappings.Add("vx", "vx");
+            tableMapping.ColumnMappings.Add("vz", "vz");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = @"DELETE FROM [dbo].[points] WHERE (((@IsNull_X = 1 AND [X] IS NULL) OR ([X] = @Original_X)) AND ((@IsNull_Y = 1 AND [Y] IS NULL) OR ([Y] = @Original_Y)) AND ((@IsNull_Z = 1 AND [Z] IS NULL) OR ([Z] = @Original_Z)) AND ((@IsNull_distance = 1 AND [distance] IS NULL) OR ([distance] = @Original_distance)) AND ((@IsNull_deltaDistance = 1 AND [deltaDistance] IS NULL) OR ([deltaDistance] = @Original_deltaDistance)) AND ((@IsNull_velocity = 1 AND [velocity] IS NULL) OR ([velocity] = @Original_velocity)) AND ((@IsNull_direction = 1 AND [direction] IS NULL) OR ([direction] = @Original_direction)) AND ((@IsNull_skeleton = 1 AND [skeleton] IS NULL) OR ([skeleton] = @Original_skeleton)) AND ([p_id] = @Original_p_id) AND ((@IsNull_t_id = 1 AND [t_id] IS NULL) OR ([t_id] = @Original_t_id)) AND ((@IsNull_milliseconds = 1 AND [milliseconds] IS NULL) OR ([milliseconds] = @Original_milliseconds)))";
+            this._adapter.DeleteCommand.CommandText = @"DELETE FROM [dbo].[points] WHERE (((@IsNull_X = 1 AND [X] IS NULL) OR ([X] = @Original_X)) AND ((@IsNull_Y = 1 AND [Y] IS NULL) OR ([Y] = @Original_Y)) AND ((@IsNull_Z = 1 AND [Z] IS NULL) OR ([Z] = @Original_Z)) AND ((@IsNull_distance = 1 AND [distance] IS NULL) OR ([distance] = @Original_distance)) AND ((@IsNull_deltaDistance = 1 AND [deltaDistance] IS NULL) OR ([deltaDistance] = @Original_deltaDistance)) AND ((@IsNull_velocity = 1 AND [velocity] IS NULL) OR ([velocity] = @Original_velocity)) AND ((@IsNull_direction = 1 AND [direction] IS NULL) OR ([direction] = @Original_direction)) AND ((@IsNull_skeleton = 1 AND [skeleton] IS NULL) OR ([skeleton] = @Original_skeleton)) AND ([p_id] = @Original_p_id) AND ((@IsNull_t_id = 1 AND [t_id] IS NULL) OR ([t_id] = @Original_t_id)) AND ((@IsNull_milliseconds = 1 AND [milliseconds] IS NULL) OR ([milliseconds] = @Original_milliseconds)) AND ((@IsNull_vx = 1 AND [vx] IS NULL) OR ([vx] = @Original_vx)) AND ((@IsNull_vz = 1 AND [vz] IS NULL) OR ([vz] = @Original_vz)))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_X", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "X", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_X", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "X", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
@@ -1755,10 +1883,14 @@ namespace Pedestrian_Tracker_Viewer.TrajectoryDbDataSetTableAdapters {
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_t_id", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "t_id", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_milliseconds", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "milliseconds", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_milliseconds", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "milliseconds", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_vx", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "vx", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_vx", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "vx", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_vz", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "vz", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_vz", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "vz", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.InsertCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = @"INSERT INTO [dbo].[points] ([X], [Y], [Z], [distance], [deltaDistance], [velocity], [direction], [skeleton], [t_id], [milliseconds]) VALUES (@X, @Y, @Z, @distance, @deltaDistance, @velocity, @direction, @skeleton, @t_id, @milliseconds);
-SELECT X, Y, Z, distance, deltaDistance, velocity, direction, skeleton, p_id, t_id, milliseconds FROM points WHERE (p_id = SCOPE_IDENTITY())";
+            this._adapter.InsertCommand.CommandText = @"INSERT INTO [dbo].[points] ([X], [Y], [Z], [distance], [deltaDistance], [velocity], [direction], [skeleton], [t_id], [milliseconds], [vx], [vz]) VALUES (@X, @Y, @Z, @distance, @deltaDistance, @velocity, @direction, @skeleton, @t_id, @milliseconds, @vx, @vz);
+SELECT X, Y, Z, distance, deltaDistance, velocity, direction, skeleton, p_id, t_id, milliseconds, vx, vz FROM points WHERE (p_id = SCOPE_IDENTITY())";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@X", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "X", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Y", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Y", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
@@ -1770,10 +1902,12 @@ SELECT X, Y, Z, distance, deltaDistance, velocity, direction, skeleton, p_id, t_
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@skeleton", global::System.Data.SqlDbType.TinyInt, 0, global::System.Data.ParameterDirection.Input, 0, 0, "skeleton", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@t_id", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "t_id", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@milliseconds", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "milliseconds", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@vx", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "vx", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@vz", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "vz", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE [dbo].[points] SET [X] = @X, [Y] = @Y, [Z] = @Z, [distance] = @distance, [deltaDistance] = @deltaDistance, [velocity] = @velocity, [direction] = @direction, [skeleton] = @skeleton, [t_id] = @t_id, [milliseconds] = @milliseconds WHERE (((@IsNull_X = 1 AND [X] IS NULL) OR ([X] = @Original_X)) AND ((@IsNull_Y = 1 AND [Y] IS NULL) OR ([Y] = @Original_Y)) AND ((@IsNull_Z = 1 AND [Z] IS NULL) OR ([Z] = @Original_Z)) AND ((@IsNull_distance = 1 AND [distance] IS NULL) OR ([distance] = @Original_distance)) AND ((@IsNull_deltaDistance = 1 AND [deltaDistance] IS NULL) OR ([deltaDistance] = @Original_deltaDistance)) AND ((@IsNull_velocity = 1 AND [velocity] IS NULL) OR ([velocity] = @Original_velocity)) AND ((@IsNull_direction = 1 AND [direction] IS NULL) OR ([direction] = @Original_direction)) AND ((@IsNull_skeleton = 1 AND [skeleton] IS NULL) OR ([skeleton] = @Original_skeleton)) AND ([p_id] = @Original_p_id) AND ((@IsNull_t_id = 1 AND [t_id] IS NULL) OR ([t_id] = @Original_t_id)) AND ((@IsNull_milliseconds = 1 AND [milliseconds] IS NULL) OR ([milliseconds] = @Original_milliseconds)));
-SELECT X, Y, Z, distance, deltaDistance, velocity, direction, skeleton, p_id, t_id, milliseconds FROM points WHERE (p_id = @p_id)";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE [dbo].[points] SET [X] = @X, [Y] = @Y, [Z] = @Z, [distance] = @distance, [deltaDistance] = @deltaDistance, [velocity] = @velocity, [direction] = @direction, [skeleton] = @skeleton, [t_id] = @t_id, [milliseconds] = @milliseconds, [vx] = @vx, [vz] = @vz WHERE (((@IsNull_X = 1 AND [X] IS NULL) OR ([X] = @Original_X)) AND ((@IsNull_Y = 1 AND [Y] IS NULL) OR ([Y] = @Original_Y)) AND ((@IsNull_Z = 1 AND [Z] IS NULL) OR ([Z] = @Original_Z)) AND ((@IsNull_distance = 1 AND [distance] IS NULL) OR ([distance] = @Original_distance)) AND ((@IsNull_deltaDistance = 1 AND [deltaDistance] IS NULL) OR ([deltaDistance] = @Original_deltaDistance)) AND ((@IsNull_velocity = 1 AND [velocity] IS NULL) OR ([velocity] = @Original_velocity)) AND ((@IsNull_direction = 1 AND [direction] IS NULL) OR ([direction] = @Original_direction)) AND ((@IsNull_skeleton = 1 AND [skeleton] IS NULL) OR ([skeleton] = @Original_skeleton)) AND ([p_id] = @Original_p_id) AND ((@IsNull_t_id = 1 AND [t_id] IS NULL) OR ([t_id] = @Original_t_id)) AND ((@IsNull_milliseconds = 1 AND [milliseconds] IS NULL) OR ([milliseconds] = @Original_milliseconds)) AND ((@IsNull_vx = 1 AND [vx] IS NULL) OR ([vx] = @Original_vx)) AND ((@IsNull_vz = 1 AND [vz] IS NULL) OR ([vz] = @Original_vz)));
+SELECT X, Y, Z, distance, deltaDistance, velocity, direction, skeleton, p_id, t_id, milliseconds, vx, vz FROM points WHERE (p_id = @p_id)";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@X", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "X", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Y", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Y", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
@@ -1785,6 +1919,8 @@ SELECT X, Y, Z, distance, deltaDistance, velocity, direction, skeleton, p_id, t_
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@skeleton", global::System.Data.SqlDbType.TinyInt, 0, global::System.Data.ParameterDirection.Input, 0, 0, "skeleton", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@t_id", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "t_id", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@milliseconds", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "milliseconds", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@vx", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "vx", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@vz", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "vz", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_X", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "X", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_X", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "X", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_Y", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Y", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
@@ -1806,6 +1942,10 @@ SELECT X, Y, Z, distance, deltaDistance, velocity, direction, skeleton, p_id, t_
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_t_id", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "t_id", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_milliseconds", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "milliseconds", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_milliseconds", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "milliseconds", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_vx", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "vx", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_vx", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "vx", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_vz", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "vz", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_vz", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "vz", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@p_id", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "p_id", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
@@ -1813,7 +1953,7 @@ SELECT X, Y, Z, distance, deltaDistance, velocity, direction, skeleton, p_id, t_
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.SqlClient.SqlConnection();
-            //this._connection.ConnectionString = global::Pedestrian_Tracker_Viewer.Properties.Settings.Default.TrajectoryDbConnectionString;
+            this._connection.ConnectionString = global::Trajectory_Viewer.Properties.Settings.Default.TrajectoryDbConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1823,7 +1963,7 @@ SELECT X, Y, Z, distance, deltaDistance, velocity, direction, skeleton, p_id, t_
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT X, Y, Z, distance, deltaDistance, velocity, direction, skeleton, p_id, t_i" +
-                "d, milliseconds FROM dbo.points";
+                "d, milliseconds, vx, vz FROM dbo.points";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -1884,7 +2024,7 @@ SELECT X, Y, Z, distance, deltaDistance, velocity, direction, skeleton, p_id, t_
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(global::System.Nullable<double> Original_X, global::System.Nullable<double> Original_Y, global::System.Nullable<double> Original_Z, global::System.Nullable<double> Original_distance, global::System.Nullable<double> Original_deltaDistance, global::System.Nullable<double> Original_velocity, string Original_direction, global::System.Nullable<byte> Original_skeleton, int Original_p_id, global::System.Nullable<int> Original_t_id, global::System.Nullable<int> Original_milliseconds) {
+        public virtual int Delete(global::System.Nullable<double> Original_X, global::System.Nullable<double> Original_Y, global::System.Nullable<double> Original_Z, global::System.Nullable<double> Original_distance, global::System.Nullable<double> Original_deltaDistance, global::System.Nullable<double> Original_velocity, string Original_direction, global::System.Nullable<byte> Original_skeleton, int Original_p_id, global::System.Nullable<int> Original_t_id, global::System.Nullable<int> Original_milliseconds, global::System.Nullable<double> Original_vx, global::System.Nullable<double> Original_vz) {
             if ((Original_X.HasValue == true)) {
                 this.Adapter.DeleteCommand.Parameters[0].Value = ((object)(0));
                 this.Adapter.DeleteCommand.Parameters[1].Value = ((double)(Original_X.Value));
@@ -1966,6 +2106,22 @@ SELECT X, Y, Z, distance, deltaDistance, velocity, direction, skeleton, p_id, t_
                 this.Adapter.DeleteCommand.Parameters[19].Value = ((object)(1));
                 this.Adapter.DeleteCommand.Parameters[20].Value = global::System.DBNull.Value;
             }
+            if ((Original_vx.HasValue == true)) {
+                this.Adapter.DeleteCommand.Parameters[21].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[22].Value = ((double)(Original_vx.Value));
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[21].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[22].Value = global::System.DBNull.Value;
+            }
+            if ((Original_vz.HasValue == true)) {
+                this.Adapter.DeleteCommand.Parameters[23].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[24].Value = ((double)(Original_vz.Value));
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[23].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[24].Value = global::System.DBNull.Value;
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -1986,7 +2142,7 @@ SELECT X, Y, Z, distance, deltaDistance, velocity, direction, skeleton, p_id, t_
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(global::System.Nullable<double> X, global::System.Nullable<double> Y, global::System.Nullable<double> Z, global::System.Nullable<double> distance, global::System.Nullable<double> deltaDistance, global::System.Nullable<double> velocity, string direction, global::System.Nullable<byte> skeleton, global::System.Nullable<int> t_id, global::System.Nullable<int> milliseconds) {
+        public virtual int Insert(global::System.Nullable<double> X, global::System.Nullable<double> Y, global::System.Nullable<double> Z, global::System.Nullable<double> distance, global::System.Nullable<double> deltaDistance, global::System.Nullable<double> velocity, string direction, global::System.Nullable<byte> skeleton, global::System.Nullable<int> t_id, global::System.Nullable<int> milliseconds, global::System.Nullable<double> vx, global::System.Nullable<double> vz) {
             if ((X.HasValue == true)) {
                 this.Adapter.InsertCommand.Parameters[0].Value = ((double)(X.Value));
             }
@@ -2047,6 +2203,18 @@ SELECT X, Y, Z, distance, deltaDistance, velocity, direction, skeleton, p_id, t_
             else {
                 this.Adapter.InsertCommand.Parameters[9].Value = global::System.DBNull.Value;
             }
+            if ((vx.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[10].Value = ((double)(vx.Value));
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[10].Value = global::System.DBNull.Value;
+            }
+            if ((vz.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[11].Value = ((double)(vz.Value));
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[11].Value = global::System.DBNull.Value;
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -2078,6 +2246,8 @@ SELECT X, Y, Z, distance, deltaDistance, velocity, direction, skeleton, p_id, t_
                     global::System.Nullable<byte> skeleton, 
                     global::System.Nullable<int> t_id, 
                     global::System.Nullable<int> milliseconds, 
+                    global::System.Nullable<double> vx, 
+                    global::System.Nullable<double> vz, 
                     global::System.Nullable<double> Original_X, 
                     global::System.Nullable<double> Original_Y, 
                     global::System.Nullable<double> Original_Z, 
@@ -2089,6 +2259,8 @@ SELECT X, Y, Z, distance, deltaDistance, velocity, direction, skeleton, p_id, t_
                     int Original_p_id, 
                     global::System.Nullable<int> Original_t_id, 
                     global::System.Nullable<int> Original_milliseconds, 
+                    global::System.Nullable<double> Original_vx, 
+                    global::System.Nullable<double> Original_vz, 
                     int p_id) {
             if ((X.HasValue == true)) {
                 this.Adapter.UpdateCommand.Parameters[0].Value = ((double)(X.Value));
@@ -2150,88 +2322,116 @@ SELECT X, Y, Z, distance, deltaDistance, velocity, direction, skeleton, p_id, t_
             else {
                 this.Adapter.UpdateCommand.Parameters[9].Value = global::System.DBNull.Value;
             }
-            if ((Original_X.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[10].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[11].Value = ((double)(Original_X.Value));
+            if ((vx.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[10].Value = ((double)(vx.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[10].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[10].Value = global::System.DBNull.Value;
+            }
+            if ((vz.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[11].Value = ((double)(vz.Value));
+            }
+            else {
                 this.Adapter.UpdateCommand.Parameters[11].Value = global::System.DBNull.Value;
             }
-            if ((Original_Y.HasValue == true)) {
+            if ((Original_X.HasValue == true)) {
                 this.Adapter.UpdateCommand.Parameters[12].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[13].Value = ((double)(Original_Y.Value));
+                this.Adapter.UpdateCommand.Parameters[13].Value = ((double)(Original_X.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[12].Value = ((object)(1));
                 this.Adapter.UpdateCommand.Parameters[13].Value = global::System.DBNull.Value;
             }
-            if ((Original_Z.HasValue == true)) {
+            if ((Original_Y.HasValue == true)) {
                 this.Adapter.UpdateCommand.Parameters[14].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[15].Value = ((double)(Original_Z.Value));
+                this.Adapter.UpdateCommand.Parameters[15].Value = ((double)(Original_Y.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[14].Value = ((object)(1));
                 this.Adapter.UpdateCommand.Parameters[15].Value = global::System.DBNull.Value;
             }
-            if ((Original_distance.HasValue == true)) {
+            if ((Original_Z.HasValue == true)) {
                 this.Adapter.UpdateCommand.Parameters[16].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[17].Value = ((double)(Original_distance.Value));
+                this.Adapter.UpdateCommand.Parameters[17].Value = ((double)(Original_Z.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[16].Value = ((object)(1));
                 this.Adapter.UpdateCommand.Parameters[17].Value = global::System.DBNull.Value;
             }
-            if ((Original_deltaDistance.HasValue == true)) {
+            if ((Original_distance.HasValue == true)) {
                 this.Adapter.UpdateCommand.Parameters[18].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[19].Value = ((double)(Original_deltaDistance.Value));
+                this.Adapter.UpdateCommand.Parameters[19].Value = ((double)(Original_distance.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[18].Value = ((object)(1));
                 this.Adapter.UpdateCommand.Parameters[19].Value = global::System.DBNull.Value;
             }
-            if ((Original_velocity.HasValue == true)) {
+            if ((Original_deltaDistance.HasValue == true)) {
                 this.Adapter.UpdateCommand.Parameters[20].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[21].Value = ((double)(Original_velocity.Value));
+                this.Adapter.UpdateCommand.Parameters[21].Value = ((double)(Original_deltaDistance.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[20].Value = ((object)(1));
                 this.Adapter.UpdateCommand.Parameters[21].Value = global::System.DBNull.Value;
             }
-            if ((Original_direction == null)) {
+            if ((Original_velocity.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[22].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[23].Value = ((double)(Original_velocity.Value));
+            }
+            else {
                 this.Adapter.UpdateCommand.Parameters[22].Value = ((object)(1));
                 this.Adapter.UpdateCommand.Parameters[23].Value = global::System.DBNull.Value;
             }
-            else {
-                this.Adapter.UpdateCommand.Parameters[22].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[23].Value = ((string)(Original_direction));
-            }
-            if ((Original_skeleton.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[24].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[25].Value = ((byte)(Original_skeleton.Value));
-            }
-            else {
+            if ((Original_direction == null)) {
                 this.Adapter.UpdateCommand.Parameters[24].Value = ((object)(1));
                 this.Adapter.UpdateCommand.Parameters[25].Value = global::System.DBNull.Value;
             }
-            this.Adapter.UpdateCommand.Parameters[26].Value = ((int)(Original_p_id));
-            if ((Original_t_id.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[27].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[28].Value = ((int)(Original_t_id.Value));
+            else {
+                this.Adapter.UpdateCommand.Parameters[24].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[25].Value = ((string)(Original_direction));
+            }
+            if ((Original_skeleton.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[26].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[27].Value = ((byte)(Original_skeleton.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[27].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[28].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[26].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[27].Value = global::System.DBNull.Value;
             }
-            if ((Original_milliseconds.HasValue == true)) {
+            this.Adapter.UpdateCommand.Parameters[28].Value = ((int)(Original_p_id));
+            if ((Original_t_id.HasValue == true)) {
                 this.Adapter.UpdateCommand.Parameters[29].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[30].Value = ((int)(Original_milliseconds.Value));
+                this.Adapter.UpdateCommand.Parameters[30].Value = ((int)(Original_t_id.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[29].Value = ((object)(1));
                 this.Adapter.UpdateCommand.Parameters[30].Value = global::System.DBNull.Value;
             }
-            this.Adapter.UpdateCommand.Parameters[31].Value = ((int)(p_id));
+            if ((Original_milliseconds.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[31].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[32].Value = ((int)(Original_milliseconds.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[31].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[32].Value = global::System.DBNull.Value;
+            }
+            if ((Original_vx.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[33].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[34].Value = ((double)(Original_vx.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[33].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[34].Value = global::System.DBNull.Value;
+            }
+            if ((Original_vz.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[35].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[36].Value = ((double)(Original_vz.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[35].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[36].Value = global::System.DBNull.Value;
+            }
+            this.Adapter.UpdateCommand.Parameters[37].Value = ((int)(p_id));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -2263,6 +2463,8 @@ SELECT X, Y, Z, distance, deltaDistance, velocity, direction, skeleton, p_id, t_
                     global::System.Nullable<byte> skeleton, 
                     global::System.Nullable<int> t_id, 
                     global::System.Nullable<int> milliseconds, 
+                    global::System.Nullable<double> vx, 
+                    global::System.Nullable<double> vz, 
                     global::System.Nullable<double> Original_X, 
                     global::System.Nullable<double> Original_Y, 
                     global::System.Nullable<double> Original_Z, 
@@ -2273,8 +2475,10 @@ SELECT X, Y, Z, distance, deltaDistance, velocity, direction, skeleton, p_id, t_
                     global::System.Nullable<byte> Original_skeleton, 
                     int Original_p_id, 
                     global::System.Nullable<int> Original_t_id, 
-                    global::System.Nullable<int> Original_milliseconds) {
-            return this.Update(X, Y, Z, distance, deltaDistance, velocity, direction, skeleton, t_id, milliseconds, Original_X, Original_Y, Original_Z, Original_distance, Original_deltaDistance, Original_velocity, Original_direction, Original_skeleton, Original_p_id, Original_t_id, Original_milliseconds, Original_p_id);
+                    global::System.Nullable<int> Original_milliseconds, 
+                    global::System.Nullable<double> Original_vx, 
+                    global::System.Nullable<double> Original_vz) {
+            return this.Update(X, Y, Z, distance, deltaDistance, velocity, direction, skeleton, t_id, milliseconds, vx, vz, Original_X, Original_Y, Original_Z, Original_distance, Original_deltaDistance, Original_velocity, Original_direction, Original_skeleton, Original_p_id, Original_t_id, Original_milliseconds, Original_vx, Original_vz, Original_p_id);
         }
     }
     
@@ -2406,10 +2610,11 @@ SELECT X, Y, Z, distance, deltaDistance, velocity, direction, skeleton, p_id, t_
             tableMapping.ColumnMappings.Add("average_direction", "average_direction");
             tableMapping.ColumnMappings.Add("length", "length");
             tableMapping.ColumnMappings.Add("t_id", "t_id");
+            tableMapping.ColumnMappings.Add("speed_kalmanized", "speed_kalmanized");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = @"DELETE FROM [dbo].[trajectories] WHERE (([skeleton] = @Original_skeleton) AND ([start_time] = @Original_start_time) AND ([end_time] = @Original_end_time) AND ((@IsNull_average_velocity = 1 AND [average_velocity] IS NULL) OR ([average_velocity] = @Original_average_velocity)) AND ([average_direction] = @Original_average_direction) AND ((@IsNull_length = 1 AND [length] IS NULL) OR ([length] = @Original_length)) AND ([t_id] = @Original_t_id))";
+            this._adapter.DeleteCommand.CommandText = @"DELETE FROM [dbo].[trajectories] WHERE (([skeleton] = @Original_skeleton) AND ([start_time] = @Original_start_time) AND ([end_time] = @Original_end_time) AND ((@IsNull_average_velocity = 1 AND [average_velocity] IS NULL) OR ([average_velocity] = @Original_average_velocity)) AND ([average_direction] = @Original_average_direction) AND ((@IsNull_length = 1 AND [length] IS NULL) OR ([length] = @Original_length)) AND ([t_id] = @Original_t_id) AND ((@IsNull_speed_kalmanized = 1 AND [speed_kalmanized] IS NULL) OR ([speed_kalmanized] = @Original_speed_kalmanized)))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_skeleton", global::System.Data.SqlDbType.TinyInt, 0, global::System.Data.ParameterDirection.Input, 0, 0, "skeleton", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_start_time", global::System.Data.SqlDbType.DateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "start_time", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
@@ -2420,10 +2625,12 @@ SELECT X, Y, Z, distance, deltaDistance, velocity, direction, skeleton, p_id, t_
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_length", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "length", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_length", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "length", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_t_id", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "t_id", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_speed_kalmanized", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "speed_kalmanized", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_speed_kalmanized", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "speed_kalmanized", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.InsertCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = @"INSERT INTO [dbo].[trajectories] ([skeleton], [start_time], [end_time], [average_velocity], [average_direction], [length]) VALUES (@skeleton, @start_time, @end_time, @average_velocity, @average_direction, @length);
-SELECT skeleton, start_time, end_time, average_velocity, average_direction, length, t_id FROM trajectories WHERE (t_id = SCOPE_IDENTITY())";
+            this._adapter.InsertCommand.CommandText = @"INSERT INTO [dbo].[trajectories] ([skeleton], [start_time], [end_time], [average_velocity], [average_direction], [length], [speed_kalmanized]) VALUES (@skeleton, @start_time, @end_time, @average_velocity, @average_direction, @length, @speed_kalmanized);
+SELECT skeleton, start_time, end_time, average_velocity, average_direction, length, t_id, speed_kalmanized FROM trajectories WHERE (t_id = SCOPE_IDENTITY())";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@skeleton", global::System.Data.SqlDbType.TinyInt, 0, global::System.Data.ParameterDirection.Input, 0, 0, "skeleton", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@start_time", global::System.Data.SqlDbType.DateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "start_time", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
@@ -2431,10 +2638,11 @@ SELECT skeleton, start_time, end_time, average_velocity, average_direction, leng
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@average_velocity", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "average_velocity", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@average_direction", global::System.Data.SqlDbType.Char, 0, global::System.Data.ParameterDirection.Input, 0, 0, "average_direction", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@length", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "length", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@speed_kalmanized", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "speed_kalmanized", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE [dbo].[trajectories] SET [skeleton] = @skeleton, [start_time] = @start_time, [end_time] = @end_time, [average_velocity] = @average_velocity, [average_direction] = @average_direction, [length] = @length WHERE (([skeleton] = @Original_skeleton) AND ([start_time] = @Original_start_time) AND ([end_time] = @Original_end_time) AND ((@IsNull_average_velocity = 1 AND [average_velocity] IS NULL) OR ([average_velocity] = @Original_average_velocity)) AND ([average_direction] = @Original_average_direction) AND ((@IsNull_length = 1 AND [length] IS NULL) OR ([length] = @Original_length)) AND ([t_id] = @Original_t_id));
-SELECT skeleton, start_time, end_time, average_velocity, average_direction, length, t_id FROM trajectories WHERE (t_id = @t_id)";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE [dbo].[trajectories] SET [skeleton] = @skeleton, [start_time] = @start_time, [end_time] = @end_time, [average_velocity] = @average_velocity, [average_direction] = @average_direction, [length] = @length, [speed_kalmanized] = @speed_kalmanized WHERE (([skeleton] = @Original_skeleton) AND ([start_time] = @Original_start_time) AND ([end_time] = @Original_end_time) AND ((@IsNull_average_velocity = 1 AND [average_velocity] IS NULL) OR ([average_velocity] = @Original_average_velocity)) AND ([average_direction] = @Original_average_direction) AND ((@IsNull_length = 1 AND [length] IS NULL) OR ([length] = @Original_length)) AND ([t_id] = @Original_t_id) AND ((@IsNull_speed_kalmanized = 1 AND [speed_kalmanized] IS NULL) OR ([speed_kalmanized] = @Original_speed_kalmanized)));
+SELECT skeleton, start_time, end_time, average_velocity, average_direction, length, t_id, speed_kalmanized FROM trajectories WHERE (t_id = @t_id)";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@skeleton", global::System.Data.SqlDbType.TinyInt, 0, global::System.Data.ParameterDirection.Input, 0, 0, "skeleton", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@start_time", global::System.Data.SqlDbType.DateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "start_time", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
@@ -2442,6 +2650,7 @@ SELECT skeleton, start_time, end_time, average_velocity, average_direction, leng
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@average_velocity", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "average_velocity", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@average_direction", global::System.Data.SqlDbType.Char, 0, global::System.Data.ParameterDirection.Input, 0, 0, "average_direction", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@length", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "length", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@speed_kalmanized", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "speed_kalmanized", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_skeleton", global::System.Data.SqlDbType.TinyInt, 0, global::System.Data.ParameterDirection.Input, 0, 0, "skeleton", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_start_time", global::System.Data.SqlDbType.DateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "start_time", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_end_time", global::System.Data.SqlDbType.DateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "end_time", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
@@ -2451,6 +2660,8 @@ SELECT skeleton, start_time, end_time, average_velocity, average_direction, leng
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_length", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "length", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_length", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "length", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_t_id", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "t_id", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_speed_kalmanized", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "speed_kalmanized", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_speed_kalmanized", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, 0, 0, "speed_kalmanized", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@t_id", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "t_id", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
@@ -2458,7 +2669,7 @@ SELECT skeleton, start_time, end_time, average_velocity, average_direction, leng
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.SqlClient.SqlConnection();
-            //this._connection.ConnectionString = global::Pedestrian_Tracker_Viewer.Properties.Settings.Default.TrajectoryDbConnectionString;
+            this._connection.ConnectionString = global::Trajectory_Viewer.Properties.Settings.Default.TrajectoryDbConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2468,7 +2679,7 @@ SELECT skeleton, start_time, end_time, average_velocity, average_direction, leng
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT skeleton, start_time, end_time, average_velocity, average_direction, lengt" +
-                "h, t_id FROM dbo.trajectories";
+                "h, t_id, speed_kalmanized FROM dbo.trajectories";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -2529,7 +2740,7 @@ SELECT skeleton, start_time, end_time, average_velocity, average_direction, leng
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(byte Original_skeleton, System.DateTime Original_start_time, System.DateTime Original_end_time, global::System.Nullable<double> Original_average_velocity, string Original_average_direction, global::System.Nullable<double> Original_length, int Original_t_id) {
+        public virtual int Delete(byte Original_skeleton, System.DateTime Original_start_time, System.DateTime Original_end_time, global::System.Nullable<double> Original_average_velocity, string Original_average_direction, global::System.Nullable<double> Original_length, int Original_t_id, global::System.Nullable<double> Original_speed_kalmanized) {
             this.Adapter.DeleteCommand.Parameters[0].Value = ((byte)(Original_skeleton));
             this.Adapter.DeleteCommand.Parameters[1].Value = ((System.DateTime)(Original_start_time));
             this.Adapter.DeleteCommand.Parameters[2].Value = ((System.DateTime)(Original_end_time));
@@ -2556,6 +2767,14 @@ SELECT skeleton, start_time, end_time, average_velocity, average_direction, leng
                 this.Adapter.DeleteCommand.Parameters[7].Value = global::System.DBNull.Value;
             }
             this.Adapter.DeleteCommand.Parameters[8].Value = ((int)(Original_t_id));
+            if ((Original_speed_kalmanized.HasValue == true)) {
+                this.Adapter.DeleteCommand.Parameters[9].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[10].Value = ((double)(Original_speed_kalmanized.Value));
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[9].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[10].Value = global::System.DBNull.Value;
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -2576,7 +2795,7 @@ SELECT skeleton, start_time, end_time, average_velocity, average_direction, leng
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(byte skeleton, System.DateTime start_time, System.DateTime end_time, global::System.Nullable<double> average_velocity, string average_direction, global::System.Nullable<double> length) {
+        public virtual int Insert(byte skeleton, System.DateTime start_time, System.DateTime end_time, global::System.Nullable<double> average_velocity, string average_direction, global::System.Nullable<double> length, global::System.Nullable<double> speed_kalmanized) {
             this.Adapter.InsertCommand.Parameters[0].Value = ((byte)(skeleton));
             this.Adapter.InsertCommand.Parameters[1].Value = ((System.DateTime)(start_time));
             this.Adapter.InsertCommand.Parameters[2].Value = ((System.DateTime)(end_time));
@@ -2598,6 +2817,12 @@ SELECT skeleton, start_time, end_time, average_velocity, average_direction, leng
             else {
                 this.Adapter.InsertCommand.Parameters[5].Value = global::System.DBNull.Value;
             }
+            if ((speed_kalmanized.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[6].Value = ((double)(speed_kalmanized.Value));
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[6].Value = global::System.DBNull.Value;
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -2618,7 +2843,23 @@ SELECT skeleton, start_time, end_time, average_velocity, average_direction, leng
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(byte skeleton, System.DateTime start_time, System.DateTime end_time, global::System.Nullable<double> average_velocity, string average_direction, global::System.Nullable<double> length, byte Original_skeleton, System.DateTime Original_start_time, System.DateTime Original_end_time, global::System.Nullable<double> Original_average_velocity, string Original_average_direction, global::System.Nullable<double> Original_length, int Original_t_id, int t_id) {
+        public virtual int Update(
+                    byte skeleton, 
+                    System.DateTime start_time, 
+                    System.DateTime end_time, 
+                    global::System.Nullable<double> average_velocity, 
+                    string average_direction, 
+                    global::System.Nullable<double> length, 
+                    global::System.Nullable<double> speed_kalmanized, 
+                    byte Original_skeleton, 
+                    System.DateTime Original_start_time, 
+                    System.DateTime Original_end_time, 
+                    global::System.Nullable<double> Original_average_velocity, 
+                    string Original_average_direction, 
+                    global::System.Nullable<double> Original_length, 
+                    int Original_t_id, 
+                    global::System.Nullable<double> Original_speed_kalmanized, 
+                    int t_id) {
             this.Adapter.UpdateCommand.Parameters[0].Value = ((byte)(skeleton));
             this.Adapter.UpdateCommand.Parameters[1].Value = ((System.DateTime)(start_time));
             this.Adapter.UpdateCommand.Parameters[2].Value = ((System.DateTime)(end_time));
@@ -2640,33 +2881,47 @@ SELECT skeleton, start_time, end_time, average_velocity, average_direction, leng
             else {
                 this.Adapter.UpdateCommand.Parameters[5].Value = global::System.DBNull.Value;
             }
-            this.Adapter.UpdateCommand.Parameters[6].Value = ((byte)(Original_skeleton));
-            this.Adapter.UpdateCommand.Parameters[7].Value = ((System.DateTime)(Original_start_time));
-            this.Adapter.UpdateCommand.Parameters[8].Value = ((System.DateTime)(Original_end_time));
-            if ((Original_average_velocity.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[9].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[10].Value = ((double)(Original_average_velocity.Value));
+            if ((speed_kalmanized.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[6].Value = ((double)(speed_kalmanized.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[9].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[10].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[6].Value = global::System.DBNull.Value;
+            }
+            this.Adapter.UpdateCommand.Parameters[7].Value = ((byte)(Original_skeleton));
+            this.Adapter.UpdateCommand.Parameters[8].Value = ((System.DateTime)(Original_start_time));
+            this.Adapter.UpdateCommand.Parameters[9].Value = ((System.DateTime)(Original_end_time));
+            if ((Original_average_velocity.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[10].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[11].Value = ((double)(Original_average_velocity.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[10].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[11].Value = global::System.DBNull.Value;
             }
             if ((Original_average_direction == null)) {
                 throw new global::System.ArgumentNullException("Original_average_direction");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[11].Value = ((string)(Original_average_direction));
+                this.Adapter.UpdateCommand.Parameters[12].Value = ((string)(Original_average_direction));
             }
             if ((Original_length.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[12].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[13].Value = ((double)(Original_length.Value));
+                this.Adapter.UpdateCommand.Parameters[13].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[14].Value = ((double)(Original_length.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[12].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[13].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[13].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[14].Value = global::System.DBNull.Value;
             }
-            this.Adapter.UpdateCommand.Parameters[14].Value = ((int)(Original_t_id));
-            this.Adapter.UpdateCommand.Parameters[15].Value = ((int)(t_id));
+            this.Adapter.UpdateCommand.Parameters[15].Value = ((int)(Original_t_id));
+            if ((Original_speed_kalmanized.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[16].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[17].Value = ((double)(Original_speed_kalmanized.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[16].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[17].Value = global::System.DBNull.Value;
+            }
+            this.Adapter.UpdateCommand.Parameters[18].Value = ((int)(t_id));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -2687,8 +2942,8 @@ SELECT skeleton, start_time, end_time, average_velocity, average_direction, leng
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(byte skeleton, System.DateTime start_time, System.DateTime end_time, global::System.Nullable<double> average_velocity, string average_direction, global::System.Nullable<double> length, byte Original_skeleton, System.DateTime Original_start_time, System.DateTime Original_end_time, global::System.Nullable<double> Original_average_velocity, string Original_average_direction, global::System.Nullable<double> Original_length, int Original_t_id) {
-            return this.Update(skeleton, start_time, end_time, average_velocity, average_direction, length, Original_skeleton, Original_start_time, Original_end_time, Original_average_velocity, Original_average_direction, Original_length, Original_t_id, Original_t_id);
+        public virtual int Update(byte skeleton, System.DateTime start_time, System.DateTime end_time, global::System.Nullable<double> average_velocity, string average_direction, global::System.Nullable<double> length, global::System.Nullable<double> speed_kalmanized, byte Original_skeleton, System.DateTime Original_start_time, System.DateTime Original_end_time, global::System.Nullable<double> Original_average_velocity, string Original_average_direction, global::System.Nullable<double> Original_length, int Original_t_id, global::System.Nullable<double> Original_speed_kalmanized) {
+            return this.Update(skeleton, start_time, end_time, average_velocity, average_direction, length, speed_kalmanized, Original_skeleton, Original_start_time, Original_end_time, Original_average_velocity, Original_average_direction, Original_length, Original_t_id, Original_speed_kalmanized, Original_t_id);
         }
     }
     

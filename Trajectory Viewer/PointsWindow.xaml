@@ -1,0 +1,25 @@
+﻿<Window x:Class="Trajectory_Viewer.PointsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:my="clr-namespace:Trajectory_Viewer"
+        Title="PointsWindow" Height="600" Width="600">
+    <Window.Resources>
+        <my:TrajectoryDbDataSet x:Key="trajectoryDbDataSet" />
+        <CollectionViewSource x:Key="pointsViewSource" Source="{Binding Path=points, Source={StaticResource trajectoryDbDataSet}}" />
+    </Window.Resources>
+    <Grid>
+        <DataGrid x:Name="pointsDg" AutoGenerateColumns="False" EnableRowVirtualization="True" Height="548" ItemsSource="{Binding Source={StaticResource pointsViewSource} }" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="xColumn" Binding="{Binding Path=X}" Header="X" Width="60"/>
+                <DataGridTextColumn x:Name="yColumn" Binding="{Binding Path=Y}" Header="Y" Width="60"/>
+                <DataGridTextColumn x:Name="zColumn" Binding="{Binding Path=Z}" Header="Z" Width="60"/>
+                <DataGridTextColumn x:Name="velocityColumn" Binding="{Binding Path=velocity}" Header="Velocity" Width="60"/>
+                <DataGridTextColumn x:Name="vxColumn" Binding="{Binding Path=vx}" Header="vx" Width="60"/>
+                <DataGridTextColumn x:Name="vzColumn" Binding="{Binding Path=vz}" Header="vz" Width="60"/>
+                <DataGridTextColumn x:Name="msColumn" Binding="{Binding Path=milliseconds}" Header="milliseconds" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="tidColumn" Binding="{Binding Path=t_id}" Header="t_id" Width="30"/>
+                <DataGridTextColumn x:Name="directionColumn" Binding="{Binding Path=direction}" Header="direction" Width="SizeToHeader"/> 
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

@@ -32,6 +32,8 @@ namespace Trajectory_Viewer
         private TrajectoryDbDataSet tds;
         private Axes axes;
 
+        private PointsWindow pw;
+
         private bool allshown;
 
         //private ModelVisual3D model;
@@ -70,6 +72,27 @@ namespace Trajectory_Viewer
 
                     tds = new TrajectoryDbDataSet();
                     tds.Merge(ds);
+
+                    //using (TrajectoryDbDataSetTableAdapters.trajectoriesTableAdapter ta = new TrajectoryDbDataSetTableAdapters.trajectoriesTableAdapter())
+                    //{
+
+                    //    Console.WriteLine(ta.Update(tds.trajectories));
+                    //}
+
+                    //using (TrajectoryDbDataSetTableAdapters.pointsTableAdapter ta = new TrajectoryDbDataSetTableAdapters.pointsTableAdapter())
+                    //{
+
+                    //    Console.WriteLine(ta.Update(tds.points));
+                    //}
+
+                    int[] t_ids = new int[882 - 705];
+
+                    for (int i = 0; i < 882 - 705; i++)
+                    {
+                        t_ids[i] = i + 705;
+                    }
+
+                    writeToCSV(t_ids);
 
                     //updateDatabase();
                     foreach (TrajectoryDbDataSet.trajectoriesRow row in tds.trajectories)
@@ -134,6 +157,69 @@ namespace Trajectory_Viewer
             catch
             {
                 return;
+            }
+        }
+
+        private void writeToCSV(int[] t_ids)
+        {
+            string filepath = Environment.GetFolderPath(Environment.SpecialFolder.Personal) + "\\Points Data";
+
+            if (!Directory.Exists(filepath))
+            {
+                Directory.CreateDirectory(filepath);
+            }
+
+            foreach (int t_id in t_ids)
+            {
+            string saveFileName = string.Format(filepath + "\\points_{0}.csv",t_id);
+
+                try
+                {
+                    // Create the CSV file to which grid data will be exported.
+
+                    StreamWriter sw = new StreamWriter(saveFileName, false);
+                    // First we will write the headers.
+                    DataTable dt = tds.points.Select(string.Format("t_id={0}", t_id)).CopyToDataTable();
+                    int iColCount = dt.Columns.Count;
+                    //Only write x,z,v,T
+                    foreach (int i in new int[]{0,2,5,10})
+                    {
+                        sw.Write(dt.Columns[i]);
+                        if (i < iColCount - 1)
+                        {
+                            sw.Write(",");
+                        }
+                    }
+                    sw.Write(sw.NewLine);
+
+                    // Now write all the rows.
+
+                    //foreach (DataRow dr in dt.Rows)
+                    for (int j = 0; j < dt.Rows.Count; j++)
+                    {
+                        DataRow dr = dt.Rows[j];
+
+                        foreach (int i in new int[]{0,2,5,10})
+                        {
+                            if (!Convert.IsDBNull(dr[i]))
+                            {
+                                sw.Write(dr[i].ToString());
+                            }
+                            if (i < iColCount - 1)
+                            {
+                                sw.Write(",");
+                            }
+                        }
+
+                        sw.Write(sw.NewLine);
+                    }
+                    sw.Close();
+
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
             }
         }
 
@@ -307,11 +393,29 @@ namespace Trajectory_Viewer
                 singletrajectory.Children.Clear();
                 clearTrajectoryText();
     
-
+                //Draw Trajectory
                 if (int.TryParse(tidtextblock.Text, out tid) && tds.trajectories.FindByt_id(tid) != null)
                 {
                     DrawTrajectory(tid, Colors.Red, "N", singletrajectory);
                     updateTrajectoryText(tid);
+                    //highlightRow(tid);
+                }
+
+                //Open Point Window
+                if (int.TryParse(tidtextblock.Text, out tid))
+                {
+
+                    pw = new PointsWindow();
+                    pw.Show();
+
+                    TrajectoryDbDataSet.pointsRow[] rows =  tds.points.Select(string.Format("t_id={0}", tid)) as TrajectoryDbDataSet.pointsRow[];
+
+                    if (rows != null)
+                    {
+                        BindingListCollectionView view = CollectionViewSource.GetDefaultView(rows) as BindingListCollectionView;
+                        pw.pointsDg.ItemsSource = rows;
+                    }
+     
                     //highlightRow(tid);
                 }
             }                
@@ -440,6 +544,11 @@ namespace Trajectory_Viewer
                 string saveFileName = saveFileDialog1.FileName;
                 tds.WriteXml(saveFileName);
             }
+        }
+
+        private void dg1_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+
         }
     }
 }
